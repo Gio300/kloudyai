@@ -1,0 +1,14 @@
+{
+  "name": "kloudy",
+  "version": "0.1",
+  "tools": [
+    { "name": "kloudy.session_open", "description": "Open a headless session. Humans do not search; a bot does." },
+    { "name": "kloudy.act", "description": "One explicit action on an open session." },
+    { "name": "kloudy.snapshot", "description": "Accessibility tree plus optional frame for humans." },
+    { "name": "kloudy.extract", "description": "Schema-constrained pull from the session tree." },
+    { "name": "kloudy.deploy", "description": "Publish a bot or confirmed surface. Not a website builder." },
+    { "name": "kloudy.confirm_site", "description": "Register a site card." },
+    { "name": "kloudy.directory_search", "description": "Find confirmed origins." },
+    { "name": "kloudy.pet_hatch", "description": "Companion worker with a face. Still headless." }
+  ]
+}

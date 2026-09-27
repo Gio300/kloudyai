@@ -1,0 +1,12 @@
+{
+  "kloudy": "0.1",
+  "origin": "https://example.com",
+  "name": "Example destination",
+  "contact": "owner@example.com",
+  "allow": ["read"],
+  "deny": ["checkout"],
+  "identity": "signed-bot",
+  "rate": { "rpm": 30 },
+  "policy": "https://example.com/bots",
+  "updated": "2026-09-26T20:00:00Z"
+}

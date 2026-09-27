@@ -1,0 +1,8 @@
+Kloudy AI public integration materials
+Copyright 2026 Gio300 / Tensorverse / kloudy.ai
+
+The initial CLI, card schema, example, and connector vocabulary derive from
+the Kloudy scaffold at commit d1291ef74fc7b08add4d49246e9d155da30fd905,
+previously published as Gio300/kloudy under Apache-2.0.
+CLI, example, and documentation were adapted for the public integration-only
+repository on 2026-09-27. This repository has an independent, curated history.

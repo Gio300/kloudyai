@@ -1,0 +1,11 @@
+{
+  "name": "kloudyai",
+  "version": "0.1.0",
+  "description": "Public integration materials for building with Kloudy",
+  "license": "Apache-2.0",
+  "repository": { "type": "git", "url": "https://github.com/Gio300/kloudyai.git" },
+  "bin": { "kloudy": "packages/cli/kloudy.mjs" },
+  "files": ["packages/cli/", "packages/connector/", "schemas/", "docs/INTEGRATION.md", "docs/PUBLIC_BOUNDARY.md", "README.md", "LICENSE", "NOTICE"],
+  "scripts": { "check": "node scripts/check-public.mjs", "cli": "node packages/cli/kloudy.mjs" },
+  "engines": { "node": ">=20" }
+}

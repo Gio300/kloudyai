@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kloudy.ai/schema/card-v0.json",
+  "title": "Kloudy site card",
+  "type": "object",
+  "required": ["kloudy", "origin", "allow", "updated"],
+  "properties": {
+    "kloudy": { "const": "0.1" },
+    "origin": { "type": "string" },
+    "name": { "type": "string" },
+    "contact": { "type": "string" },
+    "allow": {
+      "type": "array",
+      "items": { "enum": ["read", "act", "form", "checkout", "wrap"] }
+    },
+    "deny": { "type": "array", "items": { "type": "string" } },
+    "identity": { "enum": ["signed-bot", "any-bot", "human-present"] },
+    "rate": { "type": "object", "properties": { "rpm": { "type": "integer" } } },
+    "policy": { "type": "string" },
+    "updated": { "type": "string" },
+    "expires": { "type": "string" },
+    "signature": { "type": "string" }
+  }
+}
