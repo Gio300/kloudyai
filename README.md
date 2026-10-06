@@ -6,10 +6,11 @@ This public repository contains the site-card schema, a card-authoring CLI, a dr
 
 ## Start here
 
-Requires Node.js 20 or newer. No dependencies are required for the current tools.
+For the current Kloudy installer, use [Kloudy setup](https://kloudy.ai/install). This repository retains earlier card-authoring materials.
+
+The commands below assume an existing checkout. They require Node.js 20 or newer; no dependencies are required.
 
 ```sh
-git clone https://github.com/Gio300/kloudyai.git
 cd kloudyai
 npm run check
 node packages/cli/kloudy.mjs --help
