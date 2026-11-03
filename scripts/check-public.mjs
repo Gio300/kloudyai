@@ -12,7 +12,8 @@ const allowed = new Set([
   'packages/cli/lib/session.mjs', 'packages/cli/lib/status.mjs', 'packages/cli/lib/validate.mjs',
   'packages/connector/grok.tools.json',
   'schemas/kloudy.card.schema.json', 'schemas/well-known.example.json',
-  'scripts/check-public.mjs'
+  'scripts/check-public.mjs',
+  'test/cli.test.mjs', 'test/index.js', 'test/package.json'
 ]);
 const tracked = execFileSync('git', ['ls-files', '-z'], { encoding: 'utf8' }).split('\0').filter(Boolean);
 if (!tracked.length) throw new Error('Stage the reviewed public files before checking.');

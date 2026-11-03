@@ -19,7 +19,8 @@
   ],
   "scripts": {
     "check": "node scripts/check-public.mjs",
-    "cli": "node packages/cli/kloudy.mjs"
+    "cli": "node packages/cli/kloudy.mjs",
+    "test": "node --test test/"
   },
   "engines": {
     "node": ">=20"
