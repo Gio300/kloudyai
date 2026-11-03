@@ -8,6 +8,7 @@
   },
   "files": [
     "packages/cli/",
+    "packages/cli/lib/",
     "packages/connector/",
     "schemas/",
     "docs/INTEGRATION.md",

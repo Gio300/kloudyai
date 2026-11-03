@@ -6,7 +6,11 @@ const allowed = new Set([
   'README.md', 'LICENSE', 'NOTICE', 'CODE_OF_CONDUCT.md',
   'CONTRIBUTING.md', 'SECURITY.md', 'package.json',
   'docs/INTEGRATION.md', 'docs/PUBLIC_BOUNDARY.md',
-  'packages/cli/kloudy.mjs', 'packages/connector/grok.tools.json',
+  'packages/cli/kloudy.mjs',
+  'packages/cli/lib/args.mjs', 'packages/cli/lib/card.mjs', 'packages/cli/lib/client.mjs',
+  'packages/cli/lib/config.mjs', 'packages/cli/lib/directory.mjs', 'packages/cli/lib/policy.mjs',
+  'packages/cli/lib/session.mjs', 'packages/cli/lib/status.mjs', 'packages/cli/lib/validate.mjs',
+  'packages/connector/grok.tools.json',
   'schemas/kloudy.card.schema.json', 'schemas/well-known.example.json',
   'scripts/check-public.mjs'
 ]);
