@@ -16,6 +16,7 @@ function help() {
   kloudy confirm
   kloudy run <url>
   kloudy status
+  kloudy bots list|search <words>|get <id>|sync|works <id>|broken <id>
 
 Remote commands require KLOUDY_API for a service you are authorized to use.
 `);
@@ -58,7 +59,10 @@ async function post(path, body) {
   return res.json();
 }
 
-if (cmd === "help" || cmd === "--help") help();
+if (cmd === "bots") {
+  const { botsCommand } = await import("./bots.mjs");
+  try { await botsCommand(args.slice(1)); } catch (e) { console.error(e.message); process.exitCode = 1; }
+} else if (cmd === "help" || cmd === "--help") help();
 else if (cmd === "init") saveCard(loadCard());
 else if (cmd === "allow") {
   const card = loadCard();
