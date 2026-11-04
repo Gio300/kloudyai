@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kloudy.ai/schemas/sdf-webpage-v1.schema.json",
+  "title": "Kloudy extractive SDF webpage profile v1",
+  "allOf": [
+    {
+      "$ref": "https://sdfprotocol.org/schemas/sdf-document-0.2.schema.json"
+    }
+  ],
+  "type": "object",
+  "required": [
+    "sections",
+    "extensions",
+    "metadata",
+    "links",
+    "entities"
+  ],
+  "properties": {
+    "parent_type": {
+      "const": "article"
+    },
+    "type": {
+      "const": "article.x-kloudy-webpage"
+    },
+    "entities": {
+      "maxItems": 0
+    },
+    "sections": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 40,
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 160
+          },
+          "summary": {
+            "type": "string",
+            "maxLength": 1600
+          }
+        },
+        "required": [
+          "title",
+          "summary"
+        ]
+      }
+    },
+    "links": {
+      "maxItems": 50,
+      "items": {
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "maxLength": 2048
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 160
+          },
+          "rel": {
+            "const": "references"
+          }
+        },
+        "required": [
+          "href",
+          "title",
+          "rel"
+        ]
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "required": [
+        "x-kloudy"
+      ],
+      "properties": {
+        "x-kloudy": {
+          "type": "object",
+          "required": [
+            "profile",
+            "interaction_mode",
+            "capabilities",
+            "ownership_verified",
+            "published",
+            "truncated",
+            "resolution"
+          ],
+          "properties": {
+            "profile": {
+              "const": "kloudy.sdf.webpage/1"
+            },
+            "interaction_mode": {
+              "const": "informational_only"
+            },
+            "capabilities": {
+              "type": "array",
+              "maxItems": 0
+            },
+            "ownership_verified": {
+              "const": false
+            },
+            "published": {
+              "const": false
+            },
+            "truncated": {
+              "type": "boolean"
+            },
+            "resolution": {
+              "enum": [
+                "compact",
+                "standard"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "maxLength": 4096
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 200
+        }
+      },
+      "required": [
+        "title"
+      ]
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "maxLength": 200
+        }
+      },
+      "required": [
+        "title"
+      ]
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "brief": {
+          "maxLength": 300
+        },
+        "key_points": {
+          "maxItems": 4,
+          "items": {
+            "type": "string",
+            "maxLength": 200
+          }
+        }
+      }
+    },
+    "type_data": {
+      "type": "object",
+      "required": [
+        "headline"
+      ],
+      "properties": {
+        "headline": {
+          "type": "string",
+          "maxLength": 200
+        }
+      }
+    }
+  }
+}

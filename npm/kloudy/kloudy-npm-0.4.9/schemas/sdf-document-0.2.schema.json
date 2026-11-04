@@ -1,0 +1,411 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sdfprotocol.org/schemas/sdf-document-0.2.schema.json",
+  "title": "SDF Document v0.2",
+  "description": "Structured Data Format v0.2.0 - Agent-readable content protocol with hierarchical type system",
+  "type": "object",
+  "required": [
+    "sdf_version",
+    "id",
+    "parent_type",
+    "type",
+    "type_data",
+    "source",
+    "summary",
+    "provenance"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "sdf_version": {
+      "type": "string",
+      "const": "0.2.0",
+      "description": "SDF protocol version"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^sdf:[a-f0-9]{64}$",
+      "description": "Unique document identifier (sdf:<sha256>)"
+    },
+    "canonical_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Original source URL"
+    },
+    "parent_type": {
+      "type": "string",
+      "enum": [
+        "article",
+        "documentation",
+        "commerce",
+        "data",
+        "reference",
+        "discussion",
+        "code",
+        "media",
+        "profile",
+        "event"
+      ],
+      "description": "Top-level content category (like MIME type)"
+    },
+    "type": {
+      "type": "string",
+      "description": "Specific content subtype (like MIME subtype)"
+    },
+    "type_data": {
+      "type": "object",
+      "description": "Type-specific structured data (fields depend on parent_type + type)"
+    },
+    "aspects": {
+      "type": "array",
+      "description": "Additional type overlays for multi-type content",
+      "items": {
+        "type": "object",
+        "required": ["aspect_type", "type_data"],
+        "properties": {
+          "aspect_type": {
+            "type": "object",
+            "required": ["parent_type", "type"],
+            "properties": {
+              "parent_type": {
+                "type": "string",
+                "enum": ["article", "documentation", "commerce", "data", "reference", "discussion", "code", "media", "profile", "event"]
+              },
+              "type": { "type": "string" },
+              "schema": { "type": "string", "format": "uri" }
+            }
+          },
+          "type_data": { "type": "object" },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+        }
+      }
+    },
+    "language": {
+      "type": "string",
+      "description": "BCP-47 language tag"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source": {
+      "type": "object",
+      "required": ["url", "fetched_at"],
+      "properties": {
+        "url": { "type": "string", "format": "uri" },
+        "title": { "type": "string" },
+        "author": { "type": "string" },
+        "site_name": { "type": "string" },
+        "published_at": { "type": "string", "format": "date-time" },
+        "fetched_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["brief", "key_points"],
+      "properties": {
+        "brief": { "type": "string", "maxLength": 300 },
+        "detailed": { "type": "string", "maxLength": 1000 },
+        "key_points": { "type": "array", "items": { "type": "string" }, "maxItems": 10 }
+      }
+    },
+    "entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "type"],
+        "properties": {
+          "name": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": ["person", "organization", "concept", "technology", "location", "product", "event", "other"]
+          },
+          "description": { "type": "string" },
+          "relevance": { "type": "number", "minimum": 0, "maximum": 1 },
+          "identifiers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["scheme", "value"],
+              "properties": {
+                "scheme": { "type": "string" },
+                "value": { "type": "string" },
+                "url": { "type": "string", "format": "uri" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["statement", "type"],
+        "properties": {
+          "statement": { "type": "string" },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "evidence": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": ["fact", "opinion", "prediction", "instruction", "definition"]
+          },
+          "verification": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": ["verified", "disputed", "unverified", "retracted"]
+              },
+              "priority": { "type": "string" },
+              "check_queries": { "type": "array", "items": { "type": "string" } },
+              "refs": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "temporal": {
+            "type": "object",
+            "properties": {
+              "as_of": { "type": "string", "format": "date-time" },
+              "valid_until": { "type": "string", "format": "date-time" },
+              "time_sensitivity": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "topics": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["subject", "predicate", "object"],
+        "properties": {
+          "subject": { "type": "string" },
+          "predicate": {
+            "type": "string",
+            "enum": ["relates_to", "depends_on", "contradicts", "supports", "part_of", "created_by", "used_by", "alternative_to"]
+          },
+          "object": { "type": "string" }
+        }
+      }
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["title", "summary"],
+        "properties": {
+          "title": { "type": "string" },
+          "summary": { "type": "string" },
+          "content_type": {
+            "type": "string",
+            "enum": ["text", "code", "data", "media", "mixed"]
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "word_count": { "type": "integer", "minimum": 0 },
+        "reading_level": {
+          "type": "string",
+          "enum": ["basic", "intermediate", "advanced", "expert"]
+        },
+        "content_quality": { "type": "number", "minimum": 0, "maximum": 1 },
+        "freshness": {
+          "type": "string",
+          "enum": ["current", "recent", "dated", "evergreen"]
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["converter", "content_hash"],
+      "properties": {
+        "converter": { "type": "string" },
+        "model_used": { "type": "string" },
+        "conversion_confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "content_hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+        "signature": { "type": ["string", "null"] },
+        "source": {
+          "type": "object",
+          "properties": {
+            "type": { "type": "string" },
+            "url": { "type": "string", "format": "uri" },
+            "name": { "type": "string" }
+          }
+        },
+        "chain": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "step": { "type": "string" },
+              "tool": { "type": "string" },
+              "timestamp": { "type": "string", "format": "date-time" }
+            }
+          }
+        },
+        "attestations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "attester": { "type": "string" },
+              "method": { "type": "string" },
+              "value": { "type": "string" },
+              "timestamp": { "type": "string", "format": "date-time" }
+            }
+          }
+        },
+        "consensus": {
+          "type": "object",
+          "properties": {
+            "agreement_level": { "type": "number", "minimum": 0, "maximum": 1 },
+            "sources_count": { "type": "integer", "minimum": 0 },
+            "method": { "type": "string" }
+          }
+        }
+      }
+    },
+    "profiles": {
+      "type": "object",
+      "properties": {
+        "agent": {
+          "type": "object",
+          "properties": {
+            "priority_claims": { "type": "array", "items": { "type": "string" } },
+            "preferred_resolution": { "type": "string", "enum": ["brief", "detailed", "full"] },
+            "allowed_actions": { "type": "array", "items": { "type": "string" } },
+            "context_budget": { "type": "integer", "minimum": 0 },
+            "tool_hints": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "search": {
+          "type": "object",
+          "properties": {
+            "index_fields": { "type": "array", "items": { "type": "string" } },
+            "boost_fields": { "type": "array", "items": { "type": "string" } },
+            "facets": { "type": "array", "items": { "type": "string" } },
+            "snippet_field": { "type": "string" }
+          }
+        },
+        "analytics": {
+          "type": "object",
+          "properties": {
+            "tracked_metrics": { "type": "array", "items": { "type": "string" } },
+            "time_series_fields": { "type": "array", "items": { "type": "string" } },
+            "aggregation_rules": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "compliance": {
+          "type": "object",
+          "properties": {
+            "required_fields": { "type": "array", "items": { "type": "string" } },
+            "retention_policy": { "type": "string" },
+            "audit_fields": { "type": "array", "items": { "type": "string" } },
+            "pii_flags": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "sdf": {
+      "type": "object",
+      "description": "SDF protocol header",
+      "properties": {
+        "version": { "type": "string" },
+        "schema_uri": { "type": "string", "format": "uri" },
+        "dialect": { "type": "string", "enum": ["core", "strict"] },
+        "features": { "type": "array", "items": { "type": "string" } },
+        "compatibility": {
+          "type": "object",
+          "properties": {
+            "min_consumer_version": { "type": "string" },
+            "deprecated_fields": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "temporal": {
+      "type": "object",
+      "required": ["retrieved_at"],
+      "properties": {
+        "published_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" },
+        "retrieved_at": { "type": "string", "format": "date-time" },
+        "valid_from": { "type": "string", "format": "date-time" },
+        "valid_until": { "type": "string", "format": "date-time" },
+        "timezone": { "type": "string" },
+        "freshness": {
+          "type": "object",
+          "properties": {
+            "staleness_days": { "type": "number" },
+            "volatility": {
+              "type": "string",
+              "enum": ["static", "slow", "moderate", "fast", "realtime"]
+            },
+            "recommended_recheck_after_days": { "type": "number" },
+            "reason_codes": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["rel", "href"],
+        "properties": {
+          "rel": { "type": "string" },
+          "href": { "type": "string", "format": "uri" },
+          "type": { "type": "string" },
+          "title": { "type": "string" },
+          "target_id": { "type": "string" },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "evidence": { "type": "object" }
+        }
+      }
+    },
+    "embeddings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "scope", "target_ref", "model"],
+        "properties": {
+          "id": { "type": "string" },
+          "scope": { "type": "string" },
+          "target_ref": { "type": "string" },
+          "model": { "type": "string" },
+          "vector": { "type": "array", "items": { "type": "number" } },
+          "vector_uri": { "type": "string", "format": "uri" },
+          "created_at": { "type": "string", "format": "date-time" },
+          "input_hash": { "type": "string" },
+          "normalize": { "type": "boolean" },
+          "distance": { "type": "string" }
+        }
+      }
+    },
+    "omitted": {
+      "type": "object",
+      "properties": {
+        "resolution": { "type": "string", "enum": ["compact", "standard", "full"] },
+        "omitted_paths": { "type": "array", "items": { "type": "string" } },
+        "available_at": { "type": "string", "format": "uri" }
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "description": "Vendor extensions: { vendor_name: { ... } }",
+      "additionalProperties": {
+        "type": "object"
+      }
+    }
+  }
+}

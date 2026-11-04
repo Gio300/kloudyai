@@ -1,0 +1,12 @@
+{
+  "version": "kloudy.replies/1",
+  "templates": {
+    "awaiting_approval": {"status":"approval", "text":"{action} — Needs your approval."},
+    "queued": {"status":"pending", "text":"{action} — Queued."},
+    "running": {"status":"pending", "text":"{action} — Working."},
+    "completed": {"status":"completed", "text":"{action} — Completed."},
+    "failed": {"status":"failed", "text":"{action} — Failed."},
+    "cancelled": {"status":"cancelled", "text":"{action} — Cancelled."},
+    "unknown": {"status":"pending", "text":"{action} — Status not confirmed."}
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "name": "kloudy",
+  "version": "0.4.9",
+  "description": "Ask for Kloudy: CLI, MCP and SDK clients for the same scoped engine session.",
+  "type": "module",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "bin": {
+    "kloudy": "bin/entry.mjs"
+  },
+  "exports": {
+    ".": "./src/client.mjs",
+    "./mcp": "./src/mcp.mjs",
+    "./wrap": "./src/wrap.mjs",
+    "./session": "./src/connection.mjs",
+    "./httpk": "./src/httpk.mjs",
+    "./hosted": "./src/hosted.mjs",
+    "./public": "./src/public.mjs",
+    "./strings": "./src/strings.mjs",
+    "./sdf": "./src/sdf.mjs",
+    "./query": "./src/query.mjs",
+    "./activity": "./src/activity.mjs",
+    "./status-indicator.css": "./src/status-indicator.css",
+    "./models": "./src/models.mjs",
+    "./host-interface": "./src/host-interface.mjs",
+    "./replies": "./src/replies.mjs",
+    "./conversation": "./src/conversation.mjs"
+  },
+  "files": [
+    "bin",
+    "src",
+    "schemas",
+    "README.md",
+    "MCP-DEFAULT.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "check": "node --check bin/kloudy.mjs && node --check src/client.mjs && npm test",
+    "start": "node bin/kloudy.mjs",
+    "proof": "node scripts/prove.mjs",
+    "build:approval": "node scripts/build-approval.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/ext-apps": "2.0.3",
+    "@modelcontextprotocol/sdk": "1.31.0",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "js-tiktoken": "1.0.21",
+    "jsonc-parser": "3.3.1",
+    "smol-toml": "1.9.0",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  },
+  "mcpName": "ai.kloudy/kloudy",
+  "homepage": "https://kloudy.ai/install",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "bugs": {
+    "url": "https://kloudy.ai/support"
+  }
+}
